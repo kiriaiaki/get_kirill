@@ -4,7 +4,7 @@ dynamic_range = 3.3
 
 def voltage_to_number (voltage):
     if not (0.0 <= voltage <= dynamic_range):
-        print ("Напряжение выходит за динамический диапозон ЦАП (0.0 - {dynamic_range:.2f} B)")
+        print (f"Напряжение выходит за динамический диапозон ЦАП (0.0 - {dynamic_range:.2f} B)")
         print ("Устанавливаем 0.0 В")
         return 0
 
