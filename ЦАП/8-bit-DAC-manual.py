@@ -13,20 +13,20 @@ def voltage_to_number (voltage):
 def d_to_b (number):
     return [int (bit) for bit in bin (number)[2:].zfill(8)]
     
-ports = [22, 27, 17, 26, 25, 21, 20, 16]
+ports = [22, 27, 17, 26, 25, 21, 20, 16][::-1]
 GPIO.setmode (GPIO.BCM)
 GPIO.setup (ports, GPIO.OUT)
 
 try:
     while True:
         try:
-            voltage = float (input ("Введите напряжение в Вольтах: "))
+            voltage = float (input ("\nВведите напряжение в Вольтах: "))
             number = voltage_to_number(voltage)
             a = d_to_b(number)
 
             GPIO.output (ports, a)
         except ValueError:
-            print ("Вы ввели не число. Попробуйте ещё раз\n")
+            print ("Вы ввели не число. Попробуйте ещё раз")
 
 finally:
     GPIO.output (ports, 0)
