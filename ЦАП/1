@@ -1,0 +1,39 @@
+import RPi.GPIO as GPIO
+
+MAX_U = 3.3
+leds = [16, 20, 21, 25, 26, 17, 27, 22]
+
+def number_to_dac(number):
+    GPIO.output(leds, [int(i) for i in bin(number)[2:].zfill(8)])
+
+def voltage_to_number(voltage):
+    if not (0.0 <= voltage <= MAX_U):
+        print(f"Напряжение выходит за динамический диапазон ЦАП (0.00 - {MAX_U:.2f} В)")
+        print("Устанавлниваем 0.0 В")
+        return 0
+
+    return int(voltage / MAX_U * 255)
+
+MOD = 256
+
+GPIO.setmode(GPIO.BCM)
+
+GPIO.setup(leds, GPIO.OUT)
+
+GPIO.output(leds, 0)
+
+u = 3.3
+
+try:
+    while True:
+        try:
+            voltage = float(input("Введите напряжение в Вольтах: "))
+            number = voltage_to_number(voltage)
+            number_to_dac(number)
+
+        except ValueError:
+            print("Вы ввели не число. Попробуйте ещё раз\n")
+
+finally:
+    GPIO.output(leds, 0)
+    GPIO.cleanup()
